@@ -1,0 +1,121 @@
+{
+  "name": "mixxx",
+  "version": "2.5.0",
+  "description": "Mixxx is free cross platform DJ software",
+  "homepage": "https://mixxx.org/",
+  "license": "GPL-2.0-or-later",
+  "supports": "!uwp",
+  "default-features": ["qt6"],
+  "features": {
+    "qt5": {
+      "description": "Build with Qt 5",
+      "dependencies": [
+        "qt5-base",
+        "qt5-declarative",
+        "qt5-script",
+        "qt5-svg",
+        "qt5-translations",
+        "qtkeychain"
+      ]
+    },
+    "qt6": {
+      "description": "Build with Qt 6",
+      "dependencies": [
+        "qt5compat",
+        {
+          "name": "qtbase",
+          "features": [
+            "shared-mime-info"
+          ]
+        },
+        {
+          "name": "qtbase",
+          "features": [
+            "vulkan"
+          ],
+          "platform": "!osx & !ios"
+        },
+        "qtdeclarative",
+        {
+          "name": "qtmultimedia",
+          "features": [
+            "qml"
+          ]      
+        },
+        "qtapplicationmanager",
+        "qtsvg",
+        "qttranslations",
+        "qtkeychain-qt6"
+      ]
+    }
+  },
+  "dependencies": [
+    "7zip",
+    "ableton-link",
+    "benchmark",
+    "bit7z",
+    "chromaprint",
+    "fdk-aac",
+    {
+      "name": "ffmpeg",
+      "features": [
+        "fedora-ffmpeg-free-safe",
+        "ffmpeg"
+      ]      
+    },
+    "fftw3",
+    {
+      "name": "grantlee",
+      "platform": "!android"
+    },
+    "gtest",
+    "hidapi",
+    {
+      "name": "hss1394",
+      "platform": "windows | osx"
+    },
+    "libdjinterop",
+    "libebur128",
+    "libflac",
+    {
+      "name": "libid3tag",
+      "platform": "!osx & !ios"
+    },
+    "libkeyfinder",
+    {
+      "name": "libmad",
+      "platform": "!osx & !ios"
+    },
+    "liblo",
+    "libmodplug",
+    "libogg",
+    "libopusenc",
+    "libsndfile",
+    "libusb",
+    "libvorbis",    
+    "lilv",
+    "mp3lame",
+    "ms-gsl",
+    "opus",
+    "opusfile",
+    {
+      "name": "portaudio",
+      "features": ["asio"]
+    },
+    {
+      "name": "pipewire",
+      "platform": "linux"
+    },
+    "portmidi",
+    "protobuf",
+    "pthreads",
+    "rubberband",
+    "soundtouch",
+    "taglib",
+    {
+      "name": "upower",
+      "platform": "linux"
+    },
+    "wavpack"
+  ]
+}
