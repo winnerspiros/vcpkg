@@ -1,3 +1,3 @@
-set(qt5compat_HASH "72e0d7897aca060df61ba041eee495cc617206ed66b2e5286710455d78783733f798821d98b7f595cede1bd7ac6119460f720e6b2da711d63e4aef5656e421f4")
-set(qt5compat_URL "https://download.qt.io/archive/qt/6.12/6.12.0/submodules/qt5compat-everywhere-src-6.12.0.tar.xz;https://mirrors.ocf.berkeley.edu/qt/archive/qt/6.12/6.12.0/submodules/qt5compat-everywhere-src-6.12.0.tar.xz")
-set(qt5compat_FILENAME "qt5compat-everywhere-src-6.12.0.tar.xz")
+# Qt 6.12.1 pre-release snapshot (qt/qt5compat branch 6.12.1)
+set(qt5compat_REF "6ae9cd9d13ff5ae3d254c79918f0637103da14c2")
+set(qt5compat_HASH "69b7f3bd23c15f45cf523d39b49ab271fdc2190caaf15ebbc7f8a9a4c95d38dce4b178cfc773f8d5b428d2b008641d6a28f6e212f66746e3b62f090f8ef4257b")

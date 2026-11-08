@@ -180,4 +180,4 @@ jobs:
         sha256sum "${NAME}.zip" | tee "${NAME}.zip.sha256"
         gh release create "${NAME}" "${NAME}.zip" "${NAME}.zip.sha256" \
           --repo "${{ github.repository }}" --target "${{ github.sha }}" \
-          --title "${NAME}" --notes "Android arm64 release buildenv for djsugar (Qt 6.12, Vulkan)."
+          --title "${NAME}" --notes "Android arm64 release buildenv for djsugar (Qt 6.12.1 branch snapshot, Vulkan)."

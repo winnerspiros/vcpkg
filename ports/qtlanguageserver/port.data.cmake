@@ -1,3 +1,3 @@
-set(qtlanguageserver_HASH "b6f221246a0db192d5f310bec715cde8c94ccb6d5fc9c7d41cdb7d7b80dc67db02adc0a9d5832b20162740d5069a7ff2227f81545111c90059899c2360a33333")
-set(qtlanguageserver_URL "https://download.qt.io/archive/qt/6.12/6.12.0/submodules/qtlanguageserver-everywhere-src-6.12.0.tar.xz;https://mirrors.ocf.berkeley.edu/qt/archive/qt/6.12/6.12.0/submodules/qtlanguageserver-everywhere-src-6.12.0.tar.xz")
-set(qtlanguageserver_FILENAME "qtlanguageserver-everywhere-src-6.12.0.tar.xz")
+# Qt 6.12.1 pre-release snapshot (qt/qtlanguageserver branch 6.12.1)
+set(qtlanguageserver_REF "144cc23db139e282667c6816b29c6529938f9c54")
+set(qtlanguageserver_HASH "4aacfc444e460b4010a0c8652dc13d797617648b2689f6a7c2b272010c8b2f861cadb558408e7e89e5aad3f02bf10be29c577751df2eccf466b400ac877bbe61")

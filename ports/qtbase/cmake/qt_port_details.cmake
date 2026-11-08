@@ -114,12 +114,16 @@ endif()
 # 1. By default, modules come from the official release
 # 2. These modules are mirrored to github and have tags matching the release
 set(QT_FROM_GITHUB qtcoap qtopcua qtmqtt qtapplicationmanager qtinterfaceframework)
+# djsugar: modules the Mixxx build uses come from the 6.12.1 branch
+# (Vulkan/Android fixes after 6.12.0); refs are pinned in each port.data.cmake.
+set(QT_SNAPSHOT_PORTS qt5compat qtapplicationmanager qtbase qtdeclarative qtlanguageserver qtmultimedia qtshadertools qtsvg qttools qttranslations)
+list(REMOVE_ITEM QT_FROM_GITHUB ${QT_SNAPSHOT_PORTS})
 # 3. These modules are mirrored to github and have branches matching the release
 set(QT_FROM_GITHUB_BRANCH qtdeviceutilities)
 # 4. These modules are not mirrored to github and not part of the release
 set(QT_FROM_QT_GIT "")
 # 5. These modules are released separately and fetched from github at <module>_REF given in their port.data.cmake
-set(QT_FROM_GITHUB_REF qtwebengine)
+set(QT_FROM_GITHUB_REF qtwebengine ${QT_SNAPSHOT_PORTS})
 # For beta releases uncomment the next two lines and comment the lines with QT_FROM_GITHUB, QT_FROM_GITHUB_BRANCH, QT_FROM_QT_GIT
 #set(QT_FROM_QT_GIT ${QT_PORTS})
 #list(POP_FRONT QT_FROM_QT_GIT)
