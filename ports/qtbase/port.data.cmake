@@ -1,3 +1,3 @@
-# Qt 6.12.1 pre-release snapshot (qt/qtbase branch 6.12.1)
-set(qtbase_REF "505a4b128c724d61e12c71946ce92b48a9b01370")
-set(qtbase_HASH "3c7d4dc14c97bc68b2e85c70cf035354da89ab1be7ac42dc8d98a36ca51fea48f598aa2df70b6f5f5e2ee1c76e04bdb024f68df2f0c7799e349ca372a6269a33")
+# Qt 6.13 dev snapshot (qt/qtbase branch dev)
+set(qtbase_REF "eb05d5a37cab4c71428574225e0692bb0f67e37e")
+set(qtbase_HASH "8fe7cd8f79233a87772278e7f6281abeb03fde1b3e9bb762dfc072cf94d108ac19cfc1335a537d592f7e4122ea1ca80b06f5ce3f3c107834dd232bb877aa6768")

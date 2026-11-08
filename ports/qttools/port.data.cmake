@@ -1,3 +1,3 @@
-# Qt 6.12.1 pre-release snapshot (qt/qttools branch 6.12.1)
-set(qttools_REF "6484f880b06f8d56d21a5a4f257861b19ebe9dd3")
-set(qttools_HASH "7d9bc797e278170ac88d9e0d8346319fd9decd0e6531ae300d10502fa02bff945509ef8c681ce89c7966962973301fc7cfadaf4cf0a7cf36c59b911802d1712e")
+# Qt 6.13 dev snapshot (qt/qttools branch dev)
+set(qttools_REF "0768385eee6344768c1312821ae7124f7498aa6a")
+set(qttools_HASH "58b9b68d30e1ff783e156764cdb28307d93d2b54b9b3d82b5bd624a1bfb5ed1bec71ca16538ba6549efec029624e714791dded868e10ff0ab1ecd41429647258")

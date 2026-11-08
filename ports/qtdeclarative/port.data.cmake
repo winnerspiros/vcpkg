@@ -1,3 +1,3 @@
-# Qt 6.12.1 pre-release snapshot (qt/qtdeclarative branch 6.12.1)
-set(qtdeclarative_REF "d57a16f4f20f85fa6a9de338d255d408bbf0e94a")
-set(qtdeclarative_HASH "8555d05731e73aa9633d58ae62e34fd61cd177665c61fb7c73d5824ed11f49a424ddefec6a4c4996652aebc84948994940b44457fb8d852442d118865c2f4d1c")
+# Qt 6.13 dev snapshot (qt/qtdeclarative branch dev)
+set(qtdeclarative_REF "2c2f41406cb2fc3382620bea92760b4ceafa4049")
+set(qtdeclarative_HASH "c2e6882117d0306d29a27b8a0cb238a0f3e73fce3fe397b7f55a1f62c31eb8cf909c793495503937b1d5dc971fa0d485447a4531153425bb306a21dace6b1807")

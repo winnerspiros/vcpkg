@@ -1,3 +1,3 @@
-# Qt 6.12.1 pre-release snapshot (qt/qtapplicationmanager branch 6.12.1)
-set(qtapplicationmanager_REF "207bcceced0e1612cde68acb54c4675b6c49c2a2")
-set(qtapplicationmanager_HASH "6e3c60b94510b876f59f22176439d4044978073d152885e35b164d32867ce2abdbcf415cc09e88b43ada601059b22d04ace5089c9e89767281500f4633f576a4")
+# Qt 6.13 dev snapshot (qt/qtapplicationmanager branch dev)
+set(qtapplicationmanager_REF "830114c8b6aec1d3694492e203a24a83ae7a0f6e")
+set(qtapplicationmanager_HASH "8f4d4af3dc04aa9a47d7952dae7bc092a7458da452a7606605b2847b90261fa53ca525b2c49dc034bb952224fa5596d52c3122e59334c745892afa45f6d546cc")

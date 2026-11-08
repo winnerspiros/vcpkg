@@ -1,3 +1,3 @@
-# Qt 6.12.1 pre-release snapshot (qt/qtshadertools branch 6.12.1)
-set(qtshadertools_REF "0aab8e3c91801c93ed7ef4768985f116a9bf957b")
-set(qtshadertools_HASH "778864ba3ab76778fca627617e10055f25eca60bc36bcd69e188e0026b85316b83679e2542a5f451ab87ad2b9d1ac1354433c23176fa9860c76ea4c08094bd4a")
+# Qt 6.13 dev snapshot (qt/qtshadertools branch dev)
+set(qtshadertools_REF "426444d9d93b14e1ee67914441b49ce1b6bbe583")
+set(qtshadertools_HASH "361bce3a8aaa0931fc4e59b2dae31f150623d173c08c4d44cf9f4a7945cd463e9a7ab6dc51f5213e8300db9fa539426b7944f2a0066a8ffd0ea19a4282162778")

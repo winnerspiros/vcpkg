@@ -1,3 +1,3 @@
-# Qt 6.12.1 pre-release snapshot (qt/qttranslations branch 6.12.1)
-set(qttranslations_REF "b9393091587a7b167665b0a1d4455e7dee6ee3a3")
-set(qttranslations_HASH "dea1a8f3f883dce3dbea17ba4b473e07f813131283b0bc502dec3cd574948d8271cd8df0a08aabfde264731e22b01a538e8ef86bc00a2c140bdb7c799bb64e56")
+# Qt 6.13 dev snapshot (qt/qttranslations branch dev)
+set(qttranslations_REF "0199973169effe61280121a42d3aafbc8ec171eb")
+set(qttranslations_HASH "1e5de7c077ddeccb8addfe9d0c7c7a36bb5f757d6280bf83070467ce90fed0620edd136fa1abe3234594e064c9432a156714bca2910e51e80a36fe75a93489f1")

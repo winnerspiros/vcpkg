@@ -1,3 +1,3 @@
-# Qt 6.12.1 pre-release snapshot (qt/qtlanguageserver branch 6.12.1)
-set(qtlanguageserver_REF "144cc23db139e282667c6816b29c6529938f9c54")
-set(qtlanguageserver_HASH "4aacfc444e460b4010a0c8652dc13d797617648b2689f6a7c2b272010c8b2f861cadb558408e7e89e5aad3f02bf10be29c577751df2eccf466b400ac877bbe61")
+# Qt 6.13 dev snapshot (qt/qtlanguageserver branch dev)
+set(qtlanguageserver_REF "4f993a10d3d6d6960bb6b248058d60b9a64dea04")
+set(qtlanguageserver_HASH "2ef404f110ca8f93b5b3347216e1c53c5016e1572e3cd8901aaf99913dfd0b32ac25d516bfff3453e571815f20cac51f2d3a319de5a427ba64653e704b46f66d")

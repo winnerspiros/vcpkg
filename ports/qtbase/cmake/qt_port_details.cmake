@@ -11,7 +11,7 @@
 ## Note: Since Qt 6.12, qtwebengine is released separately (versioned after Chromium, e.g. 6.140.0).
 ##       It is not part of QT_PORTS; update ports/qtwebengine/port.data.cmake and its vcpkg.json manually.
 
-set(QT_VERSION 6.12.0)
+set(QT_VERSION 6.12.0) # sources: qt dev 6.13 snapshot (port.data.cmake)
 
 set(QT_DEV_BRANCH 0)
 
@@ -114,7 +114,7 @@ endif()
 # 1. By default, modules come from the official release
 # 2. These modules are mirrored to github and have tags matching the release
 set(QT_FROM_GITHUB qtcoap qtopcua qtmqtt qtapplicationmanager qtinterfaceframework)
-# djsugar: modules the Mixxx build uses come from the 6.12.1 branch
+# djsugar: modules the Mixxx build uses come from the dev branch (6.13 snapshot)
 # (Vulkan/Android fixes after 6.12.0); refs are pinned in each port.data.cmake.
 set(QT_SNAPSHOT_PORTS qt5compat qtapplicationmanager qtbase qtdeclarative qtlanguageserver qtmultimedia qtshadertools qtsvg qttools qttranslations)
 list(REMOVE_ITEM QT_FROM_GITHUB ${QT_SNAPSHOT_PORTS})

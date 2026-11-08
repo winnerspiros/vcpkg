@@ -1,3 +1,3 @@
-# Qt 6.12.1 pre-release snapshot (qt/qtsvg branch 6.12.1)
-set(qtsvg_REF "5c9d2b7ad6f1dde1fbef8e43c6054ae506ecd668")
-set(qtsvg_HASH "689e5f0220820091b48075203c35b7cb20a1a02fcec9b18785f21190d9ed8f5072f8323f31ea95606060343287221d311b8eaf270152d1013cd50cdb6629bfd7")
+# Qt 6.13 dev snapshot (qt/qtsvg branch dev)
+set(qtsvg_REF "5f1c5f7f1a121ba30b4acf9e1bc3c0b4c2600dcf")
+set(qtsvg_HASH "a6e71162790f96fed5112d8da3a6dad6b819ca8582c09e693394abfa95ee5e4cee85c6b357e31453bc3d51b55cfff21bbd49f3a7449154753c1617d39de1d51c")

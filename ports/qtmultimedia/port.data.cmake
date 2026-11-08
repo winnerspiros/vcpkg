@@ -1,3 +1,3 @@
-# Qt 6.12.1 pre-release snapshot (qt/qtmultimedia branch 6.12.1)
-set(qtmultimedia_REF "fef2a5ee775166d54f7af2cc28c9bfef979df905")
-set(qtmultimedia_HASH "d2c7d5e8ee76c1b50f9fe9f90516e1e14f3dd7c6d15e77486fb8f2f017610feb1ce7c1e9bca14e2e60f7e1a9e081b0ef4f27a526a97bd30b352b67dc2bad86c9")
+# Qt 6.13 dev snapshot (qt/qtmultimedia branch dev)
+set(qtmultimedia_REF "768f25e829f5ecbac1cf963f6b66dd9938473567")
+set(qtmultimedia_HASH "b01c45cb3e10b629887a92162f316c901850060c751f484fcd033828b38523afe14013a4e861630fc260605d136e9fb23b0c21094e3961f8becc12202c63af70")
