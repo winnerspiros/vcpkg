@@ -5,7 +5,9 @@
   "homepage": "https://mixxx.org/",
   "license": "GPL-2.0-or-later",
   "supports": "!uwp",
-  "default-features": ["qt6"],
+  "default-features": [
+    "qt6"
+  ],
   "features": {
     "qt5": {
       "description": "Build with Qt 5",
@@ -26,23 +28,75 @@
           "name": "qtbase",
           "features": [
             "shared-mime-info"
+          ],
+          "platform": "!android"
+        },
+        {
+          "name": "qtbase",
+          "default-features": false,
+          "platform": "android",
+          "features": [
+            "appstore-compliant",
+            "brotli",
+            "concurrent",
+            "dnslookup",
+            "doubleconversion",
+            "egl",
+            "freetype",
+            "gles2",
+            "gui",
+            "harfbuzz",
+            "icu",
+            "jpeg",
+            "network",
+            "opengl",
+            "openssl",
+            "pcre2",
+            "png",
+            "shared-mime-info",
+            "sql",
+            "sql-sqlite",
+            "testlib",
+            "thread",
+            "widgets",
+            "zstd",
+            "vulkan"
           ]
+        },
+        {
+          "name": "qtbase",
+          "host": true,
+          "default-features": false,
+          "platform": "android"
         },
         {
           "name": "qtbase",
           "features": [
             "vulkan"
           ],
-          "platform": "!osx & !ios"
+          "platform": "!osx & !ios & !android"
         },
         "qtdeclarative",
         {
           "name": "qtmultimedia",
           "features": [
             "qml"
-          ]      
+          ],
+          "platform": "!android"
         },
-        "qtapplicationmanager",
+        {
+          "name": "qtmultimedia",
+          "default-features": false,
+          "features": [
+            "ffmpeg",
+            "qml"
+          ],
+          "platform": "android"
+        },
+        {
+          "name": "qtapplicationmanager",
+          "platform": "!android"
+        },
         "qtsvg",
         "qttranslations",
         "qtkeychain-qt6"
@@ -50,10 +104,19 @@
     }
   },
   "dependencies": [
-    "7zip",
+    {
+      "name": "7zip",
+      "platform": "!android"
+    },
     "ableton-link",
-    "benchmark",
-    "bit7z",
+    {
+      "name": "benchmark",
+      "platform": "!android"
+    },
+    {
+      "name": "bit7z",
+      "platform": "!android"
+    },
     "chromaprint",
     "fdk-aac",
     {
@@ -61,61 +124,99 @@
       "features": [
         "fedora-ffmpeg-free-safe",
         "ffmpeg"
-      ]      
+      ]
     },
     "fftw3",
     {
       "name": "grantlee",
       "platform": "!android"
     },
-    "gtest",
+    {
+      "name": "gtest",
+      "platform": "!android"
+    },
     "hidapi",
     {
       "name": "hss1394",
       "platform": "windows | osx"
     },
-    "libdjinterop",
+    {
+      "name": "libdjinterop",
+      "platform": "!android"
+    },
     "libebur128",
     "libflac",
     {
       "name": "libid3tag",
-      "platform": "!osx & !ios"
+      "platform": "(!osx & !ios) & !android"
     },
-    "libkeyfinder",
+    {
+      "name": "libkeyfinder",
+      "platform": "!android"
+    },
     {
       "name": "libmad",
-      "platform": "!osx & !ios"
+      "platform": "(!osx & !ios) & !android"
     },
-    "liblo",
-    "libmodplug",
+    {
+      "name": "liblo",
+      "platform": "!android"
+    },
+    {
+      "name": "libmodplug",
+      "platform": "!android"
+    },
     "libogg",
-    "libopusenc",
+    {
+      "name": "libopusenc",
+      "platform": "!android"
+    },
     "libsndfile",
     "libusb",
-    "libvorbis",    
-    "lilv",
+    "libvorbis",
+    {
+      "name": "lilv",
+      "platform": "!android"
+    },
     "mp3lame",
     "ms-gsl",
     "opus",
     "opusfile",
     {
       "name": "portaudio",
-      "features": ["asio"]
+      "features": [
+        "asio"
+      ],
+      "platform": "!android"
+    },
+    {
+      "name": "portaudio",
+      "default-features": false,
+      "platform": "android"
     },
     {
       "name": "pipewire",
       "platform": "linux"
     },
-    "portmidi",
+    {
+      "name": "portmidi",
+      "platform": "!android"
+    },
     "protobuf",
     "pthreads",
-    "rubberband",
+    {
+      "name": "rubberband",
+      "platform": "!android"
+    },
     "soundtouch",
     "taglib",
     {
       "name": "upower",
       "platform": "linux"
     },
-    "wavpack"
+    {
+      "name": "wavpack",
+      "platform": "!android"
+    }
   ]
 }
