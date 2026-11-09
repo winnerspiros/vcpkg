@@ -46,7 +46,6 @@
             "gles2",
             "gui",
             "harfbuzz",
-            "icu",
             "jpeg",
             "network",
             "opengl",
