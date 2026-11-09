@@ -161,8 +161,7 @@
       "platform": "!android"
     },
     {
-      "name": "gtest",
-      "platform": "!android"
+      "name": "gtest"
     },
     "hidapi",
     {
