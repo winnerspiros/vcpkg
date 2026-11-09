@@ -153,6 +153,14 @@ jobs:
 
     # Binary cache: only ports whose ABI hash changed are rebuilt. A Qt or
     # overlay change rebuilds just the affected ports instead of all 151.
+    # Source tarballs survive upstream outages (Gradle/GitHub 504s broke runs).
+    - name: Restore vcpkg downloads
+      uses: actions/cache/restore@v4
+      with:
+        path: /home/runner/vcpkg-downloads
+        key: vcpkg-dl-${{ github.sha }}
+        restore-keys: vcpkg-dl-
+
     - name: Restore vcpkg binary cache
       uses: actions/cache/restore@v4
       with:
@@ -165,6 +173,8 @@ jobs:
     - name: Use binary cache
       run: |
         mkdir -p "/home/runner/vcpkg-bincache"
+        mkdir -p /home/runner/vcpkg-downloads
+        echo "VCPKG_DOWNLOADS=/home/runner/vcpkg-downloads" >> "$GITHUB_ENV"
         echo "VCPKG_BINARY_SOURCES=clear;files,/home/runner/vcpkg-bincache,readwrite" >> "$GITHUB_ENV"
         du -sh "/home/runner/vcpkg-bincache"
 
@@ -185,6 +195,16 @@ jobs:
           find "$cache" -type f -name '*.zip' | while read f; do grep -qxF "$(basename "$f" .zip)" /tmp/keep || rm -f "$f"; done
         fi
         du -sh "$cache"
+
+    - name: Save vcpkg downloads
+      if: always()
+      uses: actions/cache/save@v4
+      with:
+        path: |
+          /home/runner/vcpkg-downloads
+          !/home/runner/vcpkg-downloads/tools
+          !/home/runner/vcpkg-downloads/temp
+        key: vcpkg-dl-${{ github.sha }}
 
     - name: Save vcpkg binary cache
       if: always()
