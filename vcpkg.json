@@ -108,7 +108,12 @@
           "name": "qtapplicationmanager",
           "platform": "!android"
         },
-        "qtsvg",
+        {
+          "name": "qtsvg",
+          "features": [
+            "widgets"
+          ]
+        },
         "qttranslations",
         "qtkeychain-qt6"
       ]
