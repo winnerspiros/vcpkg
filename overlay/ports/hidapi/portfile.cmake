@@ -1,11 +1,9 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO libusb/hidapi
-    REF hidapi-${VERSION}
-    SHA512 a4ddd13a80a84956872fa52aa861b40e4959f301d8d91afe0feaf9dbd87394561e1fdd20cbf8cf47200845f80a8db8a934bc2e3025fe6f16435e37c17621e7b6
+    REF e4c4a08b08e2ec55a10bb28a5628c5b886c6eb63 # master 2026-11-08: libusb fixes incl. #728 (large reports)
+    SHA512 63abc1ea62a866ff282e36fb9c33cf96b638fa01f40cfc894fab5664c5a6893ccadfcd9d038110beb3acc32bc9370d7c6a5afab47614e71a1b98bac7ab68ddcf
     HEAD_REF master
-    PATCHES
-        "0001-adapt-report-size.patch" # https://github.com/libusb/hidapi/pull/728
 )
 
 vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS

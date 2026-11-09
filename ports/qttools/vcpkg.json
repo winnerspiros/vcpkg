@@ -61,17 +61,7 @@
       ]
     },
     "linguist": {
-      "description": "Build Qt Linguist components",
-      "dependencies": [
-        {
-          "name": "qttools",
-          "default-features": false,
-          "features": [
-            "designer",
-            "qml"
-          ]
-        }
-      ]
+      "description": "Build Qt Linguist components"
     },
     "qdbus": {
       "description": "Build QDBusViewer",
