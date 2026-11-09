@@ -124,7 +124,20 @@
       "features": [
         "fedora-ffmpeg-free-safe",
         "ffmpeg"
-      ]
+      ],
+      "platform": "!android"
+    },
+    {
+      "name": "ffmpeg",
+      "default-features": false,
+      "features": [
+        "avcodec",
+        "avformat",
+        "swresample",
+        "swscale",
+        "fedora-ffmpeg-free-safe"
+      ],
+      "platform": "android"
     },
     "fftw3",
     {
