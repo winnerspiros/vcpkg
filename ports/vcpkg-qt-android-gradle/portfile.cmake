@@ -23,6 +23,9 @@ set(share_dir "${CURRENT_PACKAGES_DIR}/share/${PORT}")
 
 vcpkg_download_distfile(distribution
     URLS "${QT_ANDROID_GRADLE_DISTRIBUTION_URL}"
+        # djsugar: mirrors of the same file (SHA512 checked) for services.gradle.org outages
+        "https://mirrors.cloud.tencent.com/gradle/${QT_ANDROID_GRADLE_DISTRIBUTION_NAME}.zip"
+        "https://mirrors.huaweicloud.com/gradle/${QT_ANDROID_GRADLE_DISTRIBUTION_NAME}.zip"
     FILENAME "${QT_ANDROID_GRADLE_DISTRIBUTION_NAME}.zip"
     SHA512 "${QT_ANDROID_GRADLE_DISTRIBUTION_SHA512}"
 )
