@@ -30,6 +30,7 @@ jobs:
       DEPS_BASE_NAME: mixxx-deps
       DEVELOPER_DIR: ${{ matrix.developer_dir }}
       MIXXX_VERSION: 2.7-djsugar
+      VCPKG_MAX_CONCURRENCY: 4
     name: ${{ matrix.deps_name }}
     runs-on: ${{ matrix.os }}
     steps:
@@ -150,10 +151,48 @@ jobs:
     - name: Check available disk space
       run: ${{ matrix.check_disk_space }}
 
+    # Binary cache: only ports whose ABI hash changed are rebuilt. A Qt or
+    # overlay change rebuilds just the affected ports instead of all 151.
+    - name: Restore vcpkg binary cache
+      uses: actions/cache/restore@v4
+      with:
+        path: ${{ matrix.vcpkg_path }}/../vcpkg-bincache
+        key: vcpkg-bin-${{ matrix.deps_name }}-${{ github.ref_name }}-${{ github.sha }}
+        restore-keys: |
+          vcpkg-bin-${{ matrix.deps_name }}-${{ github.ref_name }}-
+          vcpkg-bin-${{ matrix.deps_name }}-
+
+    - name: Use binary cache
+      run: |
+        mkdir -p "${{ matrix.vcpkg_path }}/../vcpkg-bincache"
+        echo "VCPKG_BINARY_SOURCES=clear;files,$(realpath ${{ matrix.vcpkg_path }}/../vcpkg-bincache),readwrite" >> "$GITHUB_ENV"
+        du -sh "${{ matrix.vcpkg_path }}/../vcpkg-bincache"
+
     - name: Build packages
       run: ./vcpkg install --vcpkg-root=${{ matrix.vcpkg_path }} --clean-after-build --recurse --feature-flags="-compilertracking,manifests,registries,versions" --x-abi-tools-use-exact-versions
       working-directory: ${{ matrix.vcpkg_path }}
       
+    - name: Prune binary cache to this build
+      if: always()
+      working-directory: ${{ matrix.vcpkg_path }}
+      run: |
+        # keep only archives used by this build so the cache doesn't grow forever
+        cache="$(realpath ../vcpkg-bincache)"
+        find vcpkg_installed/vcpkg/info -name '*.list' 2>/dev/null | wc -l
+        abis=$(./vcpkg x-package-info --x-installed --x-json $(ls vcpkg_installed/vcpkg/info | sed -E 's/^([^_]+)_[^_]+_(.+)\.list$/\1:\2/') 2>/dev/null | python3 -c 'import json,sys; d=json.load(sys.stdin)["results"]; print("\n".join(v["abi"] for v in d.values() if "abi" in v))') || true
+        if [ -n "$abis" ]; then
+          echo "$abis" | sort -u > /tmp/keep
+          find "$cache" -type f -name '*.zip' | while read f; do grep -qxF "$(basename "$f" .zip)" /tmp/keep || rm -f "$f"; done
+        fi
+        du -sh "$cache"
+
+    - name: Save vcpkg binary cache
+      if: always()
+      uses: actions/cache/save@v4
+      with:
+        path: ${{ matrix.vcpkg_path }}/../vcpkg-bincache
+        key: vcpkg-bin-${{ matrix.deps_name }}-${{ github.ref_name }}-${{ github.sha }}
+
     - name: Upload GitHub Actions artifacts of build logs
       if: always()
       uses: actions/upload-artifact@v7
@@ -166,13 +205,6 @@ jobs:
       run: ./vcpkg export --vcpkg-root=${{ matrix.vcpkg_path }} --x-all-installed --zip --output=${{ env.DEPS_BASE_NAME }}-${{ env.MIXXX_VERSION }}-${{ matrix.deps_name }}-${{ steps.vars.outputs.sha_short }} --output-dir=${{ matrix.vcpkg_path }}
       working-directory: ${{ matrix.vcpkg_path }}
       
-    - name: Upload GitHub Actions artifacts
-      uses: actions/upload-artifact@v7
-      with:
-        name: ${{ env.DEPS_BASE_NAME }}-${{ env.MIXXX_VERSION }}-${{ matrix.deps_name }}-${{ steps.vars.outputs.sha_short }}
-        path: ${{ matrix.vcpkg_path }}/${{ env.DEPS_BASE_NAME }}-${{ env.MIXXX_VERSION }}-${{ matrix.deps_name }}-${{ steps.vars.outputs.sha_short }}.zip
-        archive: false
-
     - name: Publish buildenv as GitHub release
       if: github.event_name != 'pull_request'
       env:
@@ -180,6 +212,8 @@ jobs:
         NAME: ${{ env.DEPS_BASE_NAME }}-${{ env.MIXXX_VERSION }}-${{ matrix.deps_name }}-${{ steps.vars.outputs.sha_short }}
       working-directory: ${{ matrix.vcpkg_path }}
       run: |
+        size=$(stat -c%s "${NAME}.zip"); echo "zip size: $((size/1048576)) MiB"
+        if [ "$size" -ge 2147483648 ]; then echo "::error::buildenv zip exceeds GitHub's 2 GiB asset limit"; exit 1; fi
         sha256sum "${NAME}.zip" | tee "${NAME}.zip.sha256"
         gh release create "${NAME}" "${NAME}.zip" "${NAME}.zip.sha256" \
           --repo "${{ github.repository }}" --target "${{ github.sha }}" \

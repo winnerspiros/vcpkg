@@ -8,7 +8,8 @@ set(ANDROID_API_VERSION 35)
 set(VCPKG_MAKE_BUILD_TRIPLET "--host=aarch64-linux-android")
 set(VCPKG_CMAKE_CONFIGURE_OPTIONS -DANDROID_ABI=arm64-v8a -DCMAKE_ANDROID_NDK=$ENV{ANDROID_NDK_HOME})
 set(VCPKG_BUILD_TYPE release)
-# Per-function/data sections let djsugar's --gc-sections/--icf strip unused
-# Qt and codec code from the final libmixxx.so.
-set(VCPKG_C_FLAGS "-ffunction-sections -fdata-sections")
-set(VCPKG_CXX_FLAGS "-ffunction-sections -fdata-sections")
+# The NDK toolchain already adds -ffunction-sections/-fdata-sections, but also
+# -g on every compile. djsugar strips the APK anyway, so drop debug info: much
+# faster compiles/links and a buildenv that fits a GitHub release (< 2 GiB).
+set(VCPKG_C_FLAGS "-g0")
+set(VCPKG_CXX_FLAGS "-g0")
