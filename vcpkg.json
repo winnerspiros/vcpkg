@@ -67,7 +67,18 @@
           "name": "qtbase",
           "host": true,
           "default-features": false,
-          "platform": "android"
+          "platform": "android",
+          "features": [
+            "concurrent",
+            "doubleconversion",
+            "gui",
+            "network",
+            "png",
+            "sql",
+            "testlib",
+            "thread",
+            "widgets"
+          ]
         },
         {
           "name": "qtbase",
