@@ -156,7 +156,7 @@ jobs:
     - name: Restore vcpkg binary cache
       uses: actions/cache/restore@v4
       with:
-        path: ${{ matrix.vcpkg_path }}/../vcpkg-bincache
+        path: /home/runner/vcpkg-bincache
         key: vcpkg-bin-${{ matrix.deps_name }}-${{ github.ref_name }}-${{ github.sha }}
         restore-keys: |
           vcpkg-bin-${{ matrix.deps_name }}-${{ github.ref_name }}-
@@ -164,9 +164,9 @@ jobs:
 
     - name: Use binary cache
       run: |
-        mkdir -p "${{ matrix.vcpkg_path }}/../vcpkg-bincache"
-        echo "VCPKG_BINARY_SOURCES=clear;files,$(realpath ${{ matrix.vcpkg_path }}/../vcpkg-bincache),readwrite" >> "$GITHUB_ENV"
-        du -sh "${{ matrix.vcpkg_path }}/../vcpkg-bincache"
+        mkdir -p "/home/runner/vcpkg-bincache"
+        echo "VCPKG_BINARY_SOURCES=clear;files,/home/runner/vcpkg-bincache,readwrite" >> "$GITHUB_ENV"
+        du -sh "/home/runner/vcpkg-bincache"
 
     - name: Build packages
       run: ./vcpkg install --vcpkg-root=${{ matrix.vcpkg_path }} --clean-after-build --recurse --feature-flags="-compilertracking,manifests,registries,versions" --x-abi-tools-use-exact-versions
@@ -177,7 +177,7 @@ jobs:
       working-directory: ${{ matrix.vcpkg_path }}
       run: |
         # keep only archives used by this build so the cache doesn't grow forever
-        cache="$(realpath ../vcpkg-bincache)"
+        cache=/home/runner/vcpkg-bincache
         find vcpkg_installed/vcpkg/info -name '*.list' 2>/dev/null | wc -l
         abis=$(./vcpkg x-package-info --x-installed --x-json $(ls vcpkg_installed/vcpkg/info | sed -E 's/^([^_]+)_[^_]+_(.+)\.list$/\1:\2/') 2>/dev/null | python3 -c 'import json,sys; d=json.load(sys.stdin)["results"]; print("\n".join(v["abi"] for v in d.values() if "abi" in v))') || true
         if [ -n "$abis" ]; then
@@ -190,7 +190,7 @@ jobs:
       if: always()
       uses: actions/cache/save@v4
       with:
-        path: ${{ matrix.vcpkg_path }}/../vcpkg-bincache
+        path: /home/runner/vcpkg-bincache
         key: vcpkg-bin-${{ matrix.deps_name }}-${{ github.ref_name }}-${{ github.sha }}
 
     - name: Upload GitHub Actions artifacts of build logs
