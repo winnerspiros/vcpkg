@@ -8,6 +8,10 @@ on:
 permissions:
   contents: write # Publish the buildenv zip as a GitHub release
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     strategy:
@@ -30,7 +34,6 @@ jobs:
       DEPS_BASE_NAME: mixxx-deps
       DEVELOPER_DIR: ${{ matrix.developer_dir }}
       MIXXX_VERSION: 2.7-djsugar
-      VCPKG_MAX_CONCURRENCY: 4
     name: ${{ matrix.deps_name }}
     runs-on: ${{ matrix.os }}
     steps:
@@ -179,20 +182,24 @@ jobs:
         du -sh "/home/runner/vcpkg-bincache"
 
     - name: Build packages
+      # Below the 6h job limit so the cache steps still save finished ports.
+      timeout-minutes: 320
       run: ./vcpkg install --vcpkg-root=${{ matrix.vcpkg_path }} --clean-after-build --recurse --feature-flags="-compilertracking,manifests,registries,versions" --x-abi-tools-use-exact-versions
       working-directory: ${{ matrix.vcpkg_path }}
       
     - name: Prune binary cache to this build
-      if: always()
+      # Only after a full success: a partial install would drop cached ports
+      # that simply weren't reached yet.
+      if: success()
       working-directory: ${{ matrix.vcpkg_path }}
       run: |
-        # keep only archives used by this build so the cache doesn't grow forever
         cache=/home/runner/vcpkg-bincache
-        find vcpkg_installed/vcpkg/info -name '*.list' 2>/dev/null | wc -l
-        abis=$(./vcpkg x-package-info --x-installed --x-json $(ls vcpkg_installed/vcpkg/info | sed -E 's/^([^_]+)_[^_]+_(.+)\.list$/\1:\2/') 2>/dev/null | python3 -c 'import json,sys; d=json.load(sys.stdin)["results"]; print("\n".join(v["abi"] for v in d.values() if "abi" in v))') || true
-        if [ -n "$abis" ]; then
-          echo "$abis" | sort -u > /tmp/keep
-          find "$cache" -type f -name '*.zip' | while read f; do grep -qxF "$(basename "$f" .zip)" /tmp/keep || rm -f "$f"; done
+        grep -h '^Abi: ' vcpkg_installed/vcpkg/status | awk '{print $2}' | sort -u > /tmp/keep
+        echo "ports in use: $(wc -l < /tmp/keep)"
+        if [ -s /tmp/keep ]; then
+          find "$cache" -type f -name '*.zip' | while read -r f; do
+            grep -qxF "$(basename "$f" .zip)" /tmp/keep || rm -f "$f"
+          done
         fi
         du -sh "$cache"
 
