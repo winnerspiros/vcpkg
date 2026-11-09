@@ -6,6 +6,7 @@ set(${PORT}_PATCHES
     remove-static-ssl-stub.patch
     ffmpeg-devendor-signalsmith-stretch.patch
     ffmpeg.patch
+    ffmpeg-link-dir.patch # djsugar: Qt 6.12 dropped the FFmpeg lib dir; bare -lfdk-aac failed
 )
 
 vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
