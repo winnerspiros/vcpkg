@@ -1,0 +1,18 @@
+--- a/src/gui/rhi/qrhigles2.cpp
++++ b/src/gui/rhi/qrhigles2.cpp
+@@ -158,6 +158,15 @@
+     \variable QRhiGles2NativeHandles::context
+ */
+ 
++// iOS ships the GLES 2 header only: the blend ops are GLES 3 / EXT_blend_minmax
++#ifndef GL_MIN
++#define GL_MIN 0x8007
++#endif
++
++#ifndef GL_MAX
++#define GL_MAX 0x8008
++#endif
++
+ #ifndef GL_BGRA
+ #define GL_BGRA                           0x80E1
+ #endif

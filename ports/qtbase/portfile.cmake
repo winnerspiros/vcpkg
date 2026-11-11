@@ -28,6 +28,7 @@ set(${PORT}_PATCHES
         fix-ioring-32bit.patch
         fix-liburing-config-test.patch
         fix-libresolv-test.patch
+        fix-ios-gles-blend-minmax.patch
         silence-winrtbase-coroutine-warnings.diff
 )
 
