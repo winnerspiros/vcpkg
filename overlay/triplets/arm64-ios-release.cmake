@@ -4,6 +4,9 @@ set(VCPKG_CRT_LINKAGE dynamic)
 set(VCPKG_LIBRARY_LINKAGE static)
 set(VCPKG_CMAKE_SYSTEM_NAME iOS)
 set(VCPKG_OSX_DEPLOYMENT_TARGET 14.0)
+# Device only: without it, Qt on an Intel host builds device + x86_64
+# simulator, and its configure tests fail to link the device-only libresolv
+set(VCPKG_OSX_ARCHITECTURES arm64)
 set(VCPKG_BUILD_TYPE release)
 # djsugar sets the Basic Quick Controls style (Fusion for dialogs); every
 # other built style is unused weight in the package.
