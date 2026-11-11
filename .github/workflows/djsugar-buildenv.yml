@@ -1,4 +1,4 @@
-name: djsugar Android buildenv
+name: djsugar buildenv
 
 on:
   push:
@@ -28,6 +28,44 @@ jobs:
             android_version: 35.0.0
             android_ndk: 28.0.13004108
             check_disk_space: df -h
+            cache_root: /home/runner
+            notes: Android arm64 release buildenv for djsugar (Qt 6.12.1 branch snapshot, Vulkan).
+          - os: macos-15
+            deps_name: arm64-ios-rel
+            vcpkg_path: /Users/runner/mixxx-vcpkg
+            vcpkg_bootstrap: ./bootstrap-vcpkg.sh
+            vcpkg_triplet: arm64-ios-release
+            vcpkg_host_triplet: arm64-osx-min1100-release
+            check_disk_space: df -h
+            cache_root: /Users/runner
+            notes: iOS arm64 (iOS 14+) release buildenv for djsugar.
+          - os: macos-15
+            deps_name: arm64-osx-rel
+            vcpkg_path: /Users/runner/mixxx-vcpkg
+            vcpkg_bootstrap: ./bootstrap-vcpkg.sh
+            vcpkg_triplet: arm64-osx-min1100-release
+            vcpkg_host_triplet: arm64-osx-min1100-release
+            check_disk_space: df -h
+            cache_root: /Users/runner
+            notes: macOS arm64 (macOS 11+) release buildenv for djsugar.
+          - os: windows-2022
+            deps_name: x64-windows-rel
+            vcpkg_path: C:/djv
+            vcpkg_bootstrap: ./bootstrap-vcpkg.bat
+            vcpkg_triplet: x64-windows-release
+            vcpkg_host_triplet: x64-windows-release
+            check_disk_space: df -h
+            cache_root: C:/runner-cache
+            notes: Windows x64 release buildenv for djsugar.
+          - os: ubuntu-22.04
+            deps_name: x64-linux-appimage
+            vcpkg_path: /home/runner/mixxx-vcpkg
+            vcpkg_bootstrap: ./bootstrap-vcpkg.sh
+            vcpkg_triplet: x64-linux-appimage
+            vcpkg_host_triplet: x64-linux-appimage
+            check_disk_space: df -h
+            cache_root: /home/runner
+            notes: Linux x64 release buildenv for the djsugar AppImage (glibc 2.35).
     env:
       VCPKG_DEFAULT_TRIPLET: ${{ matrix.vcpkg_triplet }}
       VCPKG_DEFAULT_HOST_TRIPLET: ${{ matrix.vcpkg_host_triplet }}
@@ -36,6 +74,9 @@ jobs:
       MIXXX_VERSION: 2.7-djsugar
     name: ${{ matrix.deps_name }}
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
     steps:
     - name: Check out git repository
       uses: actions/checkout@v4
@@ -87,9 +128,15 @@ jobs:
         sudo rm -rf /opt/hostedtoolcache/Rust    # Free up ~700M
         rsync -a ${{ github.workspace }}/mixxx-vcpkg/ ${{ matrix.vcpkg_path }}
       
-      # Workaround for issues https://github.com/microsoft/vcpkg/issues/8272  
-      # and https://github.com/actions/checkout/issues/197 
-      # to keep the build path short and work around size limits on the windows runner D: drive 
+    # Short build path: Windows path limits (microsoft/vcpkg#8272)
+    - name: Move checkout
+      if: runner.os != 'Linux'
+      run: cmake -E copy_directory "${{ github.workspace }}/mixxx-vcpkg" "${{ matrix.vcpkg_path }}"
+
+    - name: "[macOS] Install dependencies for vcpkg"
+      if: runner.os == 'macOS'
+      run: brew install automake nasm autoconf-archive libtool
+
     - name: "[Ubuntu] Install dependencies for vcpkg"
       if: runner.os == 'Linux'
       run: |
@@ -160,14 +207,14 @@ jobs:
     - name: Restore vcpkg downloads
       uses: actions/cache/restore@v4
       with:
-        path: /home/runner/vcpkg-downloads
-        key: vcpkg-dl-${{ github.sha }}
-        restore-keys: vcpkg-dl-
+        path: ${{ matrix.cache_root }}/vcpkg-downloads
+        key: vcpkg-dl-${{ runner.os }}-${{ github.sha }}
+        restore-keys: vcpkg-dl-${{ runner.os }}-
 
     - name: Restore vcpkg binary cache
       uses: actions/cache/restore@v4
       with:
-        path: /home/runner/vcpkg-bincache
+        path: ${{ matrix.cache_root }}/vcpkg-bincache
         key: vcpkg-bin-${{ matrix.deps_name }}-${{ github.ref_name }}-${{ github.sha }}
         restore-keys: |
           vcpkg-bin-${{ matrix.deps_name }}-${{ github.ref_name }}-
@@ -175,11 +222,11 @@ jobs:
 
     - name: Use binary cache
       run: |
-        mkdir -p "/home/runner/vcpkg-bincache"
-        mkdir -p /home/runner/vcpkg-downloads
-        echo "VCPKG_DOWNLOADS=/home/runner/vcpkg-downloads" >> "$GITHUB_ENV"
-        echo "VCPKG_BINARY_SOURCES=clear;files,/home/runner/vcpkg-bincache,readwrite" >> "$GITHUB_ENV"
-        du -sh "/home/runner/vcpkg-bincache"
+        mkdir -p "${{ matrix.cache_root }}/vcpkg-bincache"
+        mkdir -p ${{ matrix.cache_root }}/vcpkg-downloads
+        echo "VCPKG_DOWNLOADS=${{ matrix.cache_root }}/vcpkg-downloads" >> "$GITHUB_ENV"
+        echo "VCPKG_BINARY_SOURCES=clear;files,${{ matrix.cache_root }}/vcpkg-bincache,readwrite" >> "$GITHUB_ENV"
+        du -sh "${{ matrix.cache_root }}/vcpkg-bincache"
 
     - name: Build packages
       # Below the 6h job limit so the cache steps still save finished ports.
@@ -193,7 +240,7 @@ jobs:
       if: success()
       working-directory: ${{ matrix.vcpkg_path }}
       run: |
-        cache=/home/runner/vcpkg-bincache
+        cache=${{ matrix.cache_root }}/vcpkg-bincache
         grep -h '^Abi: ' vcpkg_installed/vcpkg/status | awk '{print $2}' | sort -u > /tmp/keep
         echo "ports in use: $(wc -l < /tmp/keep)"
         if [ -s /tmp/keep ]; then
@@ -208,16 +255,16 @@ jobs:
       uses: actions/cache/save@v4
       with:
         path: |
-          /home/runner/vcpkg-downloads
-          !/home/runner/vcpkg-downloads/tools
-          !/home/runner/vcpkg-downloads/temp
-        key: vcpkg-dl-${{ github.sha }}
+          ${{ matrix.cache_root }}/vcpkg-downloads
+          !${{ matrix.cache_root }}/vcpkg-downloads/tools
+          !${{ matrix.cache_root }}/vcpkg-downloads/temp
+        key: vcpkg-dl-${{ runner.os }}-${{ github.sha }}
 
     - name: Save vcpkg binary cache
       if: always()
       uses: actions/cache/save@v4
       with:
-        path: /home/runner/vcpkg-bincache
+        path: ${{ matrix.cache_root }}/vcpkg-bincache
         key: vcpkg-bin-${{ matrix.deps_name }}-${{ github.ref_name }}-${{ github.sha }}
 
     - name: Upload GitHub Actions artifacts of build logs
@@ -239,9 +286,9 @@ jobs:
         NAME: ${{ env.DEPS_BASE_NAME }}-${{ env.MIXXX_VERSION }}-${{ matrix.deps_name }}-${{ steps.vars.outputs.sha_short }}
       working-directory: ${{ matrix.vcpkg_path }}
       run: |
-        size=$(stat -c%s "${NAME}.zip"); echo "zip size: $((size/1048576)) MiB"
+        size=$(wc -c < "${NAME}.zip"); echo "zip size: $((size/1048576)) MiB"
         if [ "$size" -ge 2147483648 ]; then echo "::error::buildenv zip exceeds GitHub's 2 GiB asset limit"; exit 1; fi
-        sha256sum "${NAME}.zip" | tee "${NAME}.zip.sha256"
+        cmake -E sha256sum "${NAME}.zip" | tee "${NAME}.zip.sha256"
         gh release create "${NAME}" "${NAME}.zip" "${NAME}.zip.sha256" \
           --repo "${{ github.repository }}" --target "${{ github.sha }}" \
-          --title "${NAME}" --notes "Android arm64 release buildenv for djsugar (Qt 6.12.1 branch snapshot, Vulkan)."
+          --title "${NAME}" --notes "${{ matrix.notes }}"

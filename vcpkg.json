@@ -105,7 +105,14 @@
         },
         {
           "name": "qtapplicationmanager",
-          "platform": "!android"
+          "platform": "!android & !ios"
+        },
+        {
+          "name": "qtimageformats",
+          "default-features": false,
+          "features": [
+            "webp"
+          ]
         },
         {
           "name": "qtsvg",
@@ -121,16 +128,16 @@
   "dependencies": [
     {
       "name": "7zip",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     "ableton-link",
     {
       "name": "benchmark",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     {
       "name": "bit7z",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     "chromaprint",
     "fdk-aac",
@@ -140,7 +147,7 @@
         "fedora-ffmpeg-free-safe",
         "ffmpeg"
       ],
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     {
       "name": "ffmpeg",
@@ -152,24 +159,27 @@
         "swscale",
         "fedora-ffmpeg-free-safe"
       ],
-      "platform": "android"
+      "platform": "android | ios"
     },
     "fftw3",
     {
       "name": "grantlee",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     {
       "name": "gtest"
     },
-    "hidapi",
+    {
+      "name": "hidapi",
+      "platform": "!ios"
+    },
     {
       "name": "hss1394",
       "platform": "windows | osx"
     },
     {
       "name": "libdjinterop",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     "libebur128",
     "libflac",
@@ -179,7 +189,7 @@
     },
     {
       "name": "libkeyfinder",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     {
       "name": "libmad",
@@ -187,23 +197,26 @@
     },
     {
       "name": "liblo",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     {
       "name": "libmodplug",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     "libogg",
     {
       "name": "libopusenc",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     "libsndfile",
-    "libusb",
+    {
+      "name": "libusb",
+      "platform": "!ios"
+    },
     "libvorbis",
     {
       "name": "lilv",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     "mp3lame",
     "ms-gsl",
@@ -227,13 +240,13 @@
     },
     {
       "name": "portmidi",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     "protobuf",
     "pthreads",
     {
       "name": "rubberband",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     "soundtouch",
     "taglib",
@@ -243,7 +256,7 @@
     },
     {
       "name": "wavpack",
-      "platform": "!android"
+      "platform": "!android & !ios"
     }
   ]
 }
