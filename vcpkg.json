@@ -224,7 +224,6 @@
       "name": "7zip",
       "platform": "!android & !ios"
     },
-    "ableton-link",
     {
       "name": "benchmark",
       "platform": "!android & !ios"

@@ -1,8 +1,8 @@
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO taglib/taglib
-    REF "v${VERSION}"
-    SHA512 800fe379d22d863111a22257a57d81b8e561722e8baf41dc06719913276c31f80f29dda8afd1b99f02c277d9f22e813c54c3329564bbf0ea3448c0bc6575862a
+    REF 58499cb157c38b8d07b262b15c4ecba9f36aeb9a # main 2026-11-11: parser hardening after 2.3.2
+    SHA512 4d69abc88a97eb4adba10809d0f582b53b789ca1aa2bdd2d426373148f9f7db7693ca6bd0a979dc188a7dc63c325475c31ccafdf415de738587df4e62d110e00
     HEAD_REF master
     PATCHES
         remove-bin-files.patch

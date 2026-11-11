@@ -15,5 +15,6 @@
       "host": true
     },
     "zlib"
-  ]
+  ],
+  "port-version": 1
 }
