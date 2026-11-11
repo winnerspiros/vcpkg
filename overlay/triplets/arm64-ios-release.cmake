@@ -12,3 +12,8 @@ set(VCPKG_CMAKE_CONFIGURE_OPTIONS ${VCPKG_CMAKE_CONFIGURE_OPTIONS}
     -DFEATURE_quickcontrols2_universal=OFF
     -DFEATURE_quickcontrols2_imagine=OFF
     -DFEATURE_quickcontrols2_fluentwinui3=OFF)
+# vcpkg_check_features turns FEATURE_opengl OFF unless the desktop "opengl"
+# feature is requested; on iOS the GLES2 build still needs the QtOpenGL module.
+if(PORT STREQUAL "qtbase")
+    set(VCPKG_CMAKE_CONFIGURE_OPTIONS ${VCPKG_CMAKE_CONFIGURE_OPTIONS} -DFEATURE_opengl=ON)
+endif()
