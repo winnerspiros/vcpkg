@@ -169,14 +169,6 @@
             "widgets"
           ]
         },
-        {
-          "name": "qtbase",
-          "features": [
-            "vulkan"
-          ],
-          "platform": "!osx & !ios & !android",
-          "default-features": false
-        },
         "qtdeclarative",
         {
           "name": "qtmultimedia",

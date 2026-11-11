@@ -36,6 +36,7 @@ jobs:
             vcpkg_bootstrap: ./bootstrap-vcpkg.sh
             vcpkg_triplet: arm64-ios-release
             vcpkg_host_triplet: arm64-osx-min1100-release
+            developer_dir: /Applications/Xcode_16.4.app/Contents/Developer
             check_disk_space: df -h
             cache_root: /Users/runner
             notes: iOS arm64 (iOS 14+) release buildenv for djsugar.
@@ -45,6 +46,7 @@ jobs:
             vcpkg_bootstrap: ./bootstrap-vcpkg.sh
             vcpkg_triplet: arm64-osx-min1100-release
             vcpkg_host_triplet: arm64-osx-min1100-release
+            developer_dir: /Applications/Xcode_16.4.app/Contents/Developer
             check_disk_space: df -h
             cache_root: /Users/runner
             notes: macOS arm64 (macOS 11+) release buildenv for djsugar.
@@ -58,7 +60,7 @@ jobs:
             cache_root: C:/runner-cache
             notes: Windows x64 release buildenv for djsugar.
           - os: ubuntu-22.04
-            deps_name: x64-linux-appimage
+            deps_name: x64-linux-rel
             vcpkg_path: /home/runner/mixxx-vcpkg
             vcpkg_bootstrap: ./bootstrap-vcpkg.sh
             vcpkg_triplet: x64-linux-appimage
@@ -66,9 +68,38 @@ jobs:
             check_disk_space: df -h
             cache_root: /home/runner
             notes: Linux x64 release buildenv for the djsugar AppImage (glibc 2.35).
+          - os: macos-15-intel
+            deps_name: x64-osx-rel
+            vcpkg_path: /Users/runner/mixxx-vcpkg
+            vcpkg_bootstrap: ./bootstrap-vcpkg.sh
+            vcpkg_triplet: x64-osx-min1100-release
+            vcpkg_host_triplet: x64-osx-min1100-release
+            developer_dir: /Applications/Xcode_16.4.app/Contents/Developer
+            check_disk_space: df -h
+            cache_root: /Users/runner
+            notes: macOS x64 (macOS 11+) release buildenv for djsugar.
+          - os: windows-11-arm
+            deps_name: arm64-windows-rel
+            vcpkg_path: C:/djv
+            vcpkg_bootstrap: ./bootstrap-vcpkg.bat
+            vcpkg_triplet: arm64-windows-release
+            vcpkg_host_triplet: arm64-windows-release
+            check_disk_space: df -h
+            cache_root: C:/runner-cache
+            notes: Windows arm64 release buildenv for djsugar.
+          - os: ubuntu-22.04-arm
+            deps_name: arm64-linux-rel
+            vcpkg_path: /home/runner/mixxx-vcpkg
+            vcpkg_bootstrap: ./bootstrap-vcpkg.sh
+            vcpkg_triplet: arm64-linux-release
+            vcpkg_host_triplet: arm64-linux-release
+            check_disk_space: df -h
+            cache_root: /home/runner
+            notes: Linux arm64 release buildenv for the djsugar AppImage (glibc 2.35).
     env:
       VCPKG_DEFAULT_TRIPLET: ${{ matrix.vcpkg_triplet }}
       VCPKG_DEFAULT_HOST_TRIPLET: ${{ matrix.vcpkg_host_triplet }}
+      DEVELOPER_DIR: ${{ matrix.developer_dir }}
       DEPS_BASE_NAME: mixxx-deps
       DEVELOPER_DIR: ${{ matrix.developer_dir }}
       MIXXX_VERSION: 2.7-djsugar
@@ -133,9 +164,20 @@ jobs:
       if: runner.os != 'Linux'
       run: cmake -E copy_directory "${{ github.workspace }}/mixxx-vcpkg" "${{ matrix.vcpkg_path }}"
 
+    - name: "Work around actions/runner-images#9966"
+      if: matrix.os == 'macos-15-intel'
+      run: |
+        brew list -1 | grep python@ | while read formula; do
+          brew unlink $formula
+          brew link --overwrite $formula
+        done
+
     - name: "[macOS] Install dependencies for vcpkg"
       if: runner.os == 'macOS'
-      run: brew install automake nasm autoconf-archive libtool
+      run: |
+        brew update-if-needed && brew install automake nasm autoconf-archive libtool
+        sudo xcode-select --switch "$DEVELOPER_DIR"
+        xcrun --show-sdk-version
 
     - name: "[Ubuntu] Install dependencies for vcpkg"
       if: runner.os == 'Linux'
