@@ -30,22 +30,24 @@ jobs:
             check_disk_space: df -h
             cache_root: /home/runner
             notes: Android arm64 release buildenv for djsugar (Qt 6.12.1 branch snapshot, Vulkan).
-          - os: macos-15
+          # Cross-built on Intel: arm64 macOS runners are rarely available
+          - os: macos-15-intel
             deps_name: arm64-ios-rel
             vcpkg_path: /Users/runner/mixxx-vcpkg
             vcpkg_bootstrap: ./bootstrap-vcpkg.sh
             vcpkg_triplet: arm64-ios-release
-            vcpkg_host_triplet: arm64-osx-min1100-release
+            vcpkg_host_triplet: x64-osx-min1100-release
             developer_dir: /Applications/Xcode_16.4.app/Contents/Developer
             check_disk_space: df -h
             cache_root: /Users/runner
             notes: iOS arm64 (iOS 14+) release buildenv for djsugar.
-          - os: macos-15
+          # Cross-built on Intel: arm64 macOS runners are rarely available
+          - os: macos-15-intel
             deps_name: arm64-osx-rel
             vcpkg_path: /Users/runner/mixxx-vcpkg
             vcpkg_bootstrap: ./bootstrap-vcpkg.sh
             vcpkg_triplet: arm64-osx-min1100-release
-            vcpkg_host_triplet: arm64-osx-min1100-release
+            vcpkg_host_triplet: x64-osx-min1100-release
             developer_dir: /Applications/Xcode_16.4.app/Contents/Developer
             check_disk_space: df -h
             cache_root: /Users/runner
