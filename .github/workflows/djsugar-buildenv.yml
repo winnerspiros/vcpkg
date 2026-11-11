@@ -101,7 +101,6 @@ jobs:
       VCPKG_DEFAULT_HOST_TRIPLET: ${{ matrix.vcpkg_host_triplet }}
       DEVELOPER_DIR: ${{ matrix.developer_dir }}
       DEPS_BASE_NAME: mixxx-deps
-      DEVELOPER_DIR: ${{ matrix.developer_dir }}
       MIXXX_VERSION: 2.7-djsugar
     name: ${{ matrix.deps_name }}
     runs-on: ${{ matrix.os }}
