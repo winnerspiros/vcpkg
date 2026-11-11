@@ -17,3 +17,8 @@ set(VCPKG_CMAKE_CONFIGURE_OPTIONS ${VCPKG_CMAKE_CONFIGURE_OPTIONS}
 if(PORT STREQUAL "qtbase")
     set(VCPKG_CMAKE_CONFIGURE_OPTIONS ${VCPKG_CMAKE_CONFIGURE_OPTIONS} -DFEATURE_opengl=ON)
 endif()
+# lame 3.100's config.sub predates aarch64-apple-ios; arm-apple-darwin is a
+# host name it knows. Compiler flags (-arch arm64, iPhoneOS SDK) are unchanged.
+if(PORT STREQUAL "mp3lame")
+    set(VCPKG_MAKE_BUILD_TRIPLET "--host=arm-apple-darwin")
+endif()
