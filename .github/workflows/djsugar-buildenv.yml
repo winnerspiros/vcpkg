@@ -310,12 +310,15 @@ jobs:
         path: ${{ matrix.cache_root }}/vcpkg-bincache
         key: vcpkg-bin-${{ matrix.deps_name }}-${{ github.ref_name }}-${{ github.sha }}
 
+    # --clean-after-build removes the logs of ports that built: only a
+    # failed port leaves some
     - name: Upload GitHub Actions artifacts of build logs
-      if: always()
+      if: failure()
       uses: actions/upload-artifact@v7
       with:
         name: logs-${{ matrix.deps_name }}
         path: ${{ matrix.vcpkg_path  }}/buildtrees/**/*.log
+        if-no-files-found: ignore
         archive: true
 
     - name: Create buildenv archive
