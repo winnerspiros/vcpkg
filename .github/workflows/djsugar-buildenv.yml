@@ -111,7 +111,7 @@ jobs:
         shell: bash
     steps:
     - name: Check out git repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v7
       with:
         path: mixxx-vcpkg
 
@@ -248,14 +248,14 @@ jobs:
     # overlay change rebuilds just the affected ports instead of all 151.
     # Source tarballs survive upstream outages (Gradle/GitHub 504s broke runs).
     - name: Restore vcpkg downloads
-      uses: actions/cache/restore@v4
+      uses: actions/cache/restore@v6
       with:
         path: ${{ matrix.cache_root }}/vcpkg-downloads
         key: vcpkg-dl-${{ runner.os }}-${{ github.sha }}
         restore-keys: vcpkg-dl-${{ runner.os }}-
 
     - name: Restore vcpkg binary cache
-      uses: actions/cache/restore@v4
+      uses: actions/cache/restore@v6
       with:
         path: ${{ matrix.cache_root }}/vcpkg-bincache
         key: vcpkg-bin-${{ matrix.deps_name }}-${{ github.ref_name }}-${{ github.sha }}
@@ -295,7 +295,7 @@ jobs:
 
     - name: Save vcpkg downloads
       if: always()
-      uses: actions/cache/save@v4
+      uses: actions/cache/save@v6
       with:
         path: |
           ${{ matrix.cache_root }}/vcpkg-downloads
@@ -305,7 +305,7 @@ jobs:
 
     - name: Save vcpkg binary cache
       if: always()
-      uses: actions/cache/save@v4
+      uses: actions/cache/save@v6
       with:
         path: ${{ matrix.cache_root }}/vcpkg-bincache
         key: vcpkg-bin-${{ matrix.deps_name }}-${{ github.ref_name }}-${{ github.sha }}
