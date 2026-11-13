@@ -26,10 +26,100 @@
         "qt5compat",
         {
           "name": "qtbase",
+          "default-features": false,
+          "platform": "linux",
           "features": [
-            "shared-mime-info"
-          ],
-          "platform": "!android"
+            "async-io",
+            "brotli",
+            "concurrent",
+            "dbus",
+            "dnslookup",
+            "doubleconversion",
+            "egl",
+            "fontconfig",
+            "freetype",
+            "gui",
+            "harfbuzz",
+            "icu",
+            "jpeg",
+            "network",
+            "opengl",
+            "openssl",
+            "pcre2",
+            "png",
+            "sessionmanager",
+            "shared-mime-info",
+            "sql",
+            "sql-sqlite",
+            "testlib",
+            "thread",
+            "widgets",
+            "xcb",
+            "xcb-sm",
+            "xcb-xlib",
+            "zstd"
+          ]
+        },
+        {
+          "name": "qtbase",
+          "default-features": false,
+          "platform": "windows | osx",
+          "features": [
+            "async-io",
+            "brotli",
+            "concurrent",
+            "dnslookup",
+            "doubleconversion",
+            "freetype",
+            "gui",
+            "harfbuzz",
+            "jpeg",
+            "network",
+            "opengl",
+            "openssl",
+            "pcre2",
+            "png",
+            "sessionmanager",
+            "shared-mime-info",
+            "sql",
+            "sql-sqlite",
+            "testlib",
+            "thread",
+            "widgets",
+            {
+              "name": "windeployqt",
+              "platform": "windows"
+            },
+            "zstd"
+          ]
+        },
+        {
+          "name": "qtbase",
+          "default-features": false,
+          "platform": "ios",
+          "features": [
+            "async-io",
+            "appstore-compliant",
+            "brotli",
+            "concurrent",
+            "dnslookup",
+            "doubleconversion",
+            "freetype",
+            "gles2",
+            "gui",
+            "harfbuzz",
+            "jpeg",
+            "network",
+            "pcre2",
+            "png",
+            "securetransport",
+            "sql",
+            "sql-sqlite",
+            "testlib",
+            "thread",
+            "widgets",
+            "zstd"
+          ]
         },
         {
           "name": "qtbase",
@@ -66,7 +156,7 @@
           "name": "qtbase",
           "host": true,
           "default-features": false,
-          "platform": "android",
+          "platform": "android | ios",
           "features": [
             "concurrent",
             "doubleconversion",
@@ -79,20 +169,13 @@
             "widgets"
           ]
         },
-        {
-          "name": "qtbase",
-          "features": [
-            "vulkan"
-          ],
-          "platform": "!osx & !ios & !android"
-        },
         "qtdeclarative",
         {
           "name": "qtmultimedia",
           "features": [
             "qml"
           ],
-          "platform": "!android"
+          "platform": "!android & !ios"
         },
         {
           "name": "qtmultimedia",
@@ -104,8 +187,23 @@
           "platform": "android"
         },
         {
+          "name": "qtmultimedia",
+          "default-features": false,
+          "features": [
+            "qml"
+          ],
+          "platform": "ios"
+        },
+        {
           "name": "qtapplicationmanager",
-          "platform": "!android"
+          "platform": "!android & !ios"
+        },
+        {
+          "name": "qtimageformats",
+          "default-features": false,
+          "features": [
+            "webp"
+          ]
         },
         {
           "name": "qtsvg",
@@ -114,23 +212,25 @@
           ]
         },
         "qttranslations",
-        "qtkeychain-qt6"
+        {
+          "name": "qtkeychain-qt6",
+          "platform": "!ios"
+        }
       ]
     }
   },
   "dependencies": [
     {
       "name": "7zip",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
-    "ableton-link",
     {
       "name": "benchmark",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     {
       "name": "bit7z",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     "chromaprint",
     "fdk-aac",
@@ -140,7 +240,7 @@
         "fedora-ffmpeg-free-safe",
         "ffmpeg"
       ],
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     {
       "name": "ffmpeg",
@@ -152,24 +252,27 @@
         "swscale",
         "fedora-ffmpeg-free-safe"
       ],
-      "platform": "android"
+      "platform": "android | ios"
     },
     "fftw3",
     {
       "name": "grantlee",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     {
       "name": "gtest"
     },
-    "hidapi",
+    {
+      "name": "hidapi",
+      "platform": "!ios"
+    },
     {
       "name": "hss1394",
       "platform": "windows | osx"
     },
     {
       "name": "libdjinterop",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     "libebur128",
     "libflac",
@@ -179,7 +282,7 @@
     },
     {
       "name": "libkeyfinder",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     {
       "name": "libmad",
@@ -187,23 +290,26 @@
     },
     {
       "name": "liblo",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     {
       "name": "libmodplug",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     "libogg",
     {
       "name": "libopusenc",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     "libsndfile",
-    "libusb",
+    {
+      "name": "libusb",
+      "platform": "!ios"
+    },
     "libvorbis",
     {
       "name": "lilv",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     "mp3lame",
     "ms-gsl",
@@ -214,12 +320,12 @@
       "features": [
         "asio"
       ],
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     {
       "name": "portaudio",
       "default-features": false,
-      "platform": "android"
+      "platform": "android | ios"
     },
     {
       "name": "pipewire",
@@ -227,13 +333,16 @@
     },
     {
       "name": "portmidi",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     "protobuf",
-    "pthreads",
+    {
+      "name": "pthreads",
+      "platform": "windows"
+    },
     {
       "name": "rubberband",
-      "platform": "!android"
+      "platform": "!android & !ios"
     },
     "soundtouch",
     "taglib",
@@ -243,7 +352,7 @@
     },
     {
       "name": "wavpack",
-      "platform": "!android"
+      "platform": "!android & !ios"
     }
   ]
 }
