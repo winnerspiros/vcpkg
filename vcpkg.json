@@ -73,6 +73,7 @@
             "freetype",
             "gui",
             "harfbuzz",
+            "icu",
             "jpeg",
             "network",
             "opengl",
