@@ -73,6 +73,10 @@
             "freetype",
             "gui",
             "harfbuzz",
+            {
+              "name": "icu",
+              "platform": "osx"
+            },
             "jpeg",
             "network",
             "opengl",
