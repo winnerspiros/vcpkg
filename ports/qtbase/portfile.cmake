@@ -29,6 +29,7 @@ set(${PORT}_PATCHES
         fix-liburing-config-test.patch
         fix-libresolv-test.patch
         fix-ios-gles-blend-minmax.patch
+        fix-ios-entrypoint-sync-headers.patch
         silence-winrtbase-coroutine-warnings.diff
 )
 
